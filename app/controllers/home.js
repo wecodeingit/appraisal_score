@@ -6,12 +6,8 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
-router.get('/', function (req, res, next) {
-  //db.Article.findAll().then(function (articles) {
-    res.render('index', {
-      title: 'Appraisal Score',
-      articles: ''
-     // articles: articles
+router.get('/getSectionData', function (req, res, next) {
+    res.send({
+      message: 'Success'
     });
-  //});
 });
