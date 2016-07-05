@@ -5,7 +5,7 @@ var path = require('path'),
 var database = {
     host:process.env.IP,
     port:3306,
-    user:process.env.C9_USER,
+    user:'testuser',
     password:'',
     name:'appraisal_score',
 };
