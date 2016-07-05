@@ -1,0 +1,19 @@
+#create user
+CREATE USER testuser IDENTIFIED BY '';
+GRANT ALL PRIVILEGES ON *.* TO testuser WITH GRANT OPTION;
+
+#create database
+create database appraisal_score;
+
+#create table
+CREATE TABLE appraisal_score.criteria (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+measureName VARCHAR(30) NOT NULL
+);
+
+#insert into table
+INSERT INTO appraisal_score.criteria(measureName) VALUES('Goal Score');
+INSERT INTO appraisal_score.criteria(measureName) VALUES('Attendance Score');
+INSERT INTO appraisal_score.criteria(measureName) VALUES('Competency Score');
+INSERT INTO appraisal_score.criteria(measureName) VALUES('Skill Rating Score');
+INSERT INTO appraisal_score.criteria(measureName) VALUES('Performance Objective Score');
