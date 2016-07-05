@@ -14,7 +14,7 @@
         request.send();
     }
     function showSectionDataInUI(response){
-        document.getElementById('container').innerHTML = response.message;
+        document.getElementById('container').innerHTML = JSON.stringify(response.result);
     }
     function getSectionData(){
         var options = {url:'/getSectionData',callback:showSectionDataInUI};
