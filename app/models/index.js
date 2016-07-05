@@ -1,9 +1,6 @@
-var fs = require('fs'),
-  path = require('path'),
-  mysql = require("mysql"),
-  Sequelize = require('sequelize'),
-  config = require('../../config/config'),
-  db = {};
+var mysql = require("mysql");
+var config = require('../../config/config');
+var db = {};
   /* mysql connection string */
    var createDatabaseConnection = function(){
    return mysql.createConnection({

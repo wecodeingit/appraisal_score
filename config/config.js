@@ -5,9 +5,9 @@ var path = require('path'),
 var database = {
     host:process.env.IP,
     port:3306,
-    user:process.env.C9_USER||'myjournal',
+    user:process.env.C9_USER,
     password:'',
-    name:'c9',
+    name:'appraisal_score',
 };
 
 var config = {

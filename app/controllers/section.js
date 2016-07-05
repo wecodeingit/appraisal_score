@@ -15,7 +15,7 @@ function callback(res,dbInstance){
 function queryConnection(res,callback)
 {
   var connection = db.createDatabaseConnection();
-  connection.query("show databases", function(err, rows, fields) {
+  connection.query("select * from criteria", function(err, rows, fields) {
     if (err) {
       callback(res,{"connection":connection,"result":err});
       return;
