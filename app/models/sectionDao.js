@@ -1,15 +1,15 @@
 var db = require('./index.js');
-var sectiondao = {
+var sectionDao = {
     getSection:function(callback){
        var selectQuery = "select * from criteria";
         var connection = db.createDatabaseConnection();
         connection.then(function(conn){
             conn.query(selectQuery).then(function(rows) {
                 db.terminateDatabaseConnection(conn);
-                callback({"result":rows});
+                callback(rows);
             },function(err){
                 db.terminateDatabaseConnection(conn);
-                callback({"result":err});
+                callback(err);
             });
         },function(err){
             console.log(err);
@@ -19,4 +19,4 @@ var sectiondao = {
     }
 }
 
-module.exports = sectiondao;
+module.exports = sectionDao;
