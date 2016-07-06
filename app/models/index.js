@@ -10,31 +10,21 @@ var db = {};
       password : config.database.password,
       database : config.database.name
     });
-    
-    
-   /* connection.connect(function(err){
-        if(err){ throw err;}
-        console.log("Connected Successfully");
-    });*/
-    
+
    return connection;
-    
+
    }
-  
+
   var terminateDatabaseConnection = function(connection){
-    connection.end(function(err) {
-     if (err) {
-       console.log(err);
-       return;
-     }
-     console.log("The connection is terminated now");
+    connection.end().then(function(){
+      console.log("The connection is terminated now");
     });
   }
 
-    
+
     db.createDatabaseConnection = createDatabaseConnection;
     db.terminateDatabaseConnection = terminateDatabaseConnection;
-    
-  
+
+
 
 module.exports = db;

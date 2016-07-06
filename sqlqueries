@@ -8,12 +8,13 @@ create database appraisal_score;
 #create table
 CREATE TABLE appraisal_score.criteria (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-measureName VARCHAR(30) NOT NULL
+measureName VARCHAR(30) NOT NULL,
+weightage FLOAT(5,2) NOT NULL
 );
 
 #insert into table
-INSERT INTO appraisal_score.criteria(measureName) VALUES('Goal Score');
-INSERT INTO appraisal_score.criteria(measureName) VALUES('Attendance Score');
-INSERT INTO appraisal_score.criteria(measureName) VALUES('Competency Score');
-INSERT INTO appraisal_score.criteria(measureName) VALUES('Skill Rating Score');
-INSERT INTO appraisal_score.criteria(measureName) VALUES('Performance Objective Score');
+INSERT INTO appraisal_score.criteria(measureName,weightage) VALUES('Goal Score',20);
+INSERT INTO appraisal_score.criteria(measureName,weightage) VALUES('Attendance Score',20);
+INSERT INTO appraisal_score.criteria(measureName,weightage) VALUES('Competency Score',20);
+INSERT INTO appraisal_score.criteria(measureName,weightage) VALUES('Skill Rating Score',20);
+INSERT INTO appraisal_score.criteria(measureName,weightage) VALUES('Performance Objective Score',20);
