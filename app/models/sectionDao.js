@@ -1,9 +1,11 @@
 var db = require('./index.js');
+
+var selectQuery = "select * from appraisal_score.criteria";
+var truncateQuery = "truncate table appraisal_score.criteria";
+var insertQuery = "INSERT INTO appraisal_score.criteria(measureName,weightage) values ?";
+
 var sectionDao = {
-    insertSection:function(sectionRecords,callback){
-       var selectQuery = "select * from appraisal_score.criteria";
-       var truncateQuery = "truncate table appraisal_score.criteria";
-       var insertQuery = "INSERT INTO appraisal_score.criteria(measureName,weightage) values ?";
+    postSection:function(sectionRecords,callback){
        var connection = db.createDatabaseConnection();
        var refinedSectionRecords = sectionRecords.map(function(item){
                 return [item.sectionName,item.sectionWeightage];
@@ -25,6 +27,16 @@ var sectionDao = {
             .catch(function(error) {
                 console.log(error);
                 callback(error);
+            });
+    },
+    getSection:function(callback){
+        var connection = db.createDatabaseConnection();
+        connection
+            .then(function(conn){
+                return conn.query(selectQuery).then(function(rows) {
+                  db.terminateDatabaseConnection(conn);
+                  callback(rows);
+                });
             });
     }
 }
