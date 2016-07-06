@@ -1,15 +1,24 @@
-var mysql = require("mysql");
+var mysql = require("promise-mysql");
 var config = require('../../config/config');
 var db = {};
   /* mysql connection string */
    var createDatabaseConnection = function(){
-   return mysql.createConnection({
+   var connection = mysql.createConnection({
       host     : config.database.host,
       port     : config.database.port,
       user     : config.database.user,
       password : config.database.password,
       database : config.database.name
     });
+    
+    
+   /* connection.connect(function(err){
+        if(err){ throw err;}
+        console.log("Connected Successfully");
+    });*/
+    
+   return connection;
+    
    }
   
   var terminateDatabaseConnection = function(connection){
