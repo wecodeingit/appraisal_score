@@ -6,8 +6,8 @@ module.exports = function (app) {
   app.use('/', router);
 };
 
-router.get('/getSectionData', function (req, res, next) {
-  sectionDao.getSection(function(result){
+router.post('/saveSectionConfiguration', function (req, res, next) {
+  sectionDao.insertSection(req.body.section,function(result){
     res.send({
         result: result
     });

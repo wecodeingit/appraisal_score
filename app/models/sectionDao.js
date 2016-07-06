@@ -1,9 +1,13 @@
 var db = require('./index.js');
 var sectionDao = {
-    getSection:function(callback){
+    insertSection:function(sectionRecords,callback){
        var selectQuery = "select * from appraisal_score.criteria";
        var truncateQuery = "truncate table appraisal_score.criteria";
+       var insertQuery = "INSERT INTO appraisal_score.criteria(measureName,weightage) values ?";
        var connection = db.createDatabaseConnection();
+       var refinedSectionRecords = sectionRecords.map(function(item){
+                return [item.sectionName,item.sectionWeightage];
+       });
        connection
             .then(function(conn){
                 return conn.query(selectQuery).then(function(rows) {
@@ -12,9 +16,10 @@ var sectionDao = {
                 });
             })
             .then(function(conn){
-                return conn.query(selectQuery).then(function(rows) {
+                return conn.query(insertQuery,[refinedSectionRecords]).then(function(response) {
+                    var result = response.affectedRows ? "Inserted Successfully" : "Error while inserting";
                     db.terminateDatabaseConnection(conn);
-                    callback(rows);
+                    callback(result);
                 });
             })
             .catch(function(error) {
