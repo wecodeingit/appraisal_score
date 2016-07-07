@@ -11,7 +11,7 @@ module.exports = function (app) {
 router.post('/saveSectionConfiguration', function (req, res) {
   sectionDao.postSection(req.body.section,function(result){
     res.send({
-        result: result
+        section: result
     });
   });
 });
@@ -19,7 +19,7 @@ router.post('/saveSectionConfiguration', function (req, res) {
 router.get('/getSectionConfiguration', function (req, res) {
   sectionDao.getSection(function(result){
     res.send({
-        result: result
+        section: result
     });
   });
 });

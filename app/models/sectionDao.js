@@ -45,6 +45,10 @@ var sectionDao = {
             db.terminateDatabaseConnection(conn);
             callback(rows);
           });
+      })
+      .catch(function(error) {
+        console.log(error);
+        callback(error);
       });
   }
 };

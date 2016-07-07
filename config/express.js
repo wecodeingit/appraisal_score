@@ -18,7 +18,7 @@ module.exports = function(app, config) {
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'ejs');
 
-  // app.use(favicon(config.root + '/public/img/favicon.ico'));
+  app.use(favicon(config.root + '/public/img/favicon.ico'));
   app.use(logger('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
@@ -29,9 +29,6 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-  if (env === "development") {
-    //app.use(express.errorHandler());
-  }
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function(controller) {
     require(controller)(app);

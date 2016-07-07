@@ -16,8 +16,13 @@
     }
 
     function showSectionData(response) {
-        document.getElementById('container')
-            .innerHTML = JSON.stringify(response.result);
+        document.getElementById('sectionContainer')
+            .innerHTML = JSON.stringify(response.section);
+    }
+
+    function showEmployeeData(response) {
+        document.getElementById('employeeContainer')
+            .innerHTML = JSON.stringify(response.employee);
     }
 
     function getSectionData() {
@@ -61,9 +66,34 @@
         serviceProvider(options);
     }
 
-    document.getElementById('getData')
+    function getAllEmployees() {
+        var options = {
+            url: '/getAllEmployees',
+            method: 'GET',
+            callback: showEmployeeData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
+    function getEmployeeById() {
+        var employeeId = 2;
+        var options = {
+            url: '/getEmployeeById/' + employeeId,
+            method: 'GET',
+            callback: showEmployeeData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
+    document.getElementById('getSectionData')
         .addEventListener('click', getSectionData);
-    document.getElementById('postData')
+    document.getElementById('postSectionData')
         .addEventListener('click', postSectionData);
+    document.getElementById('getAllEmployeeData')
+        .addEventListener('click', getAllEmployees);
+    document.getElementById('getEmployeeDataById')
+        .addEventListener('click', getEmployeeById);
 
 })();
