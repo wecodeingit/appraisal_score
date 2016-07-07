@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var glob = require('glob');
 
@@ -12,7 +14,7 @@ module.exports = function(app, config) {
   var env = process.env.NODE_ENV || 'development';
   app.locals.ENV = env;
   app.locals.ENV_DEVELOPMENT = env == 'development';
-  
+
   app.set('views', config.root + '/app/views');
   app.set('view engine', 'ejs');
 
@@ -27,23 +29,22 @@ module.exports = function(app, config) {
   app.use(express.static(config.root + '/public'));
   app.use(methodOverride());
 
-  if(env === "development")
-  {
+  if (env === "development") {
     //app.use(express.errorHandler());
   }
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
-  controllers.forEach(function (controller) {
+  controllers.forEach(function(controller) {
     require(controller)(app);
   });
 
-  app.use(function (req, res, next) {
+  app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
   });
-  
-  if(app.get('env') === 'development'){
-    app.use(function (err, req, res, next) {
+
+  if (app.get('env') === 'development') {
+    app.use(function(err, req, res) {
       res.status(err.status || 500);
       res.render('error', {
         message: err.message,
@@ -53,13 +54,13 @@ module.exports = function(app, config) {
     });
   }
 
-  app.use(function (err, req, res, next) {
+  app.use(function(err, req, res) {
     res.status(err.status || 500);
-      res.render('error', {
-        message: err.message,
-        error: {},
-        title: 'error'
-      });
+    res.render('error', {
+      message: err.message,
+      error: {},
+      title: 'error'
+    });
   });
 
 };
