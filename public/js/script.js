@@ -25,6 +25,11 @@
             .innerHTML = JSON.stringify(response.employee);
     }
 
+    function showScoreData(response) {
+        document.getElementById('scoreContainer')
+            .innerHTML = JSON.stringify(response.score);
+    }
+
     function getSectionData() {
         var options = {
             url: '/getSectionConfiguration',
@@ -87,6 +92,99 @@
         serviceProvider(options);
     }
 
+    function insertScore() {
+        var options = {
+            url: '/saveIndividualScore',
+            method: 'POST',
+            callback: showScoreData
+        };
+        options.payload = {
+
+            "scores": {
+                "employeeID": 1,
+                "overallScore": 80,
+                "individualScore": [
+                    {
+                        "score_id": 1,
+                        "score_value": 10
+                    },
+                    {
+                        "score_id": 2,
+                        "score_value": 10
+                    },
+                    {
+                        "score_id": 3,
+                        "score_value": 20
+                    },
+                    {
+                        "score_id": 4,
+                        "score_value": 20
+                    },
+                    {
+                        "score_id": 5,
+                        "score_value": 20
+                    }
+                ]
+            }
+
+        };
+        serviceProvider(options);
+    }
+
+    function getOverallScoreForAllEmployees() {
+        var options = {
+            url: '/getOverallScoreForAllEmployees',
+            method: 'GET',
+            callback: showScoreData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
+    function getOverallScoreByEmployeeId() {
+        var employeeId = 1;
+        var options = {
+            url: '/getOverallScoreByEmployeeId/' + employeeId,
+            method: 'GET',
+            callback: showScoreData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
+    function getAllIndividualScoreForAllEmployees() {
+        var options = {
+            url: '/getAllIndividualScoreForAllEmployees/',
+            method: 'GET',
+            callback: showScoreData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
+    function getAllIndividualScoreByEmployeeId() {
+        var employeeId = 1;
+        var options = {
+            url: '/getAllIndividualScoreByEmployeeId/' + employeeId,
+            method: 'GET',
+            callback: showScoreData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
+    function getIndividualScoreByIdForEmployeeId() {
+        var employeeId = 1;
+        var sectionId = 1;
+        var options = {
+            url: '/getIndividualScoreByIdForEmployeeId/' + employeeId + '/' + sectionId,
+            method: 'GET',
+            callback: showScoreData
+        };
+        options.payload = [];
+        serviceProvider(options);
+    }
+
     document.getElementById('getSectionData')
         .addEventListener('click', getSectionData);
     document.getElementById('postSectionData')
@@ -95,5 +193,17 @@
         .addEventListener('click', getAllEmployees);
     document.getElementById('getEmployeeDataById')
         .addEventListener('click', getEmployeeById);
+    document.getElementById('insertScore')
+        .addEventListener('click', insertScore);
+    document.getElementById('getOverallScoreForAllEmployees')
+        .addEventListener('click', getOverallScoreForAllEmployees);
+    document.getElementById('getOverallScoreByEmployeeId')
+        .addEventListener('click', getOverallScoreByEmployeeId);
+    document.getElementById('getAllIndividualScoreForAllEmployees')
+        .addEventListener('click', getAllIndividualScoreForAllEmployees);
+    document.getElementById('getAllIndividualScoreByEmployeeId')
+        .addEventListener('click', getAllIndividualScoreByEmployeeId);
+    document.getElementById('getIndividualScoreByIdForEmployeeId')
+        .addEventListener('click', getIndividualScoreByIdForEmployeeId);
 
 })();
