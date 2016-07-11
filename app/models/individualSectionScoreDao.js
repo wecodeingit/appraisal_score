@@ -46,7 +46,7 @@ var individualSectionScoreDao = {
         return conn.query(getAllIndividualScoreForAllEmployeesQuery)
           .then(function(rows) {
             db.terminateDatabaseConnection(conn);
-            callback(rows);
+            callback(db.groupByRecord(rows, 'employeeID', 'scores'));
           });
       })
       .catch(function(error) {
@@ -61,7 +61,7 @@ var individualSectionScoreDao = {
         return conn.query(getAllIndividualScoreByEmployeeIdQuery, [employeeId])
           .then(function(rows) {
             db.terminateDatabaseConnection(conn);
-            callback(rows);
+            callback(db.groupByRecord(rows, 'employeeID', 'scores'));
           });
       })
       .catch(function(error) {
@@ -76,7 +76,7 @@ var individualSectionScoreDao = {
         return conn.query(getIndividualScoreByIdForEmployeeId, [employeeId, sectionId])
           .then(function(rows) {
             db.terminateDatabaseConnection(conn);
-            callback(rows);
+            callback(db.groupByRecord(rows, 'employeeID', 'scores'));
           });
       })
       .catch(function(error) {

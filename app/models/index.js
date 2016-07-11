@@ -1,6 +1,7 @@
 "use strict";
 
 var mysql = require("promise-mysql");
+var _ = require("lodash");
 var config = require('../../config/config');
 var db = {};
 /* mysql connection string */
@@ -24,7 +25,18 @@ var terminateDatabaseConnection = function(connection) {
     });
 };
 
+var groupByRecord = function(record, groupByParameter, childRecordKey) {
+  return _.chain(record)
+    .groupBy(groupByParameter)
+    .toPairs()
+    .map(function(currentItem) {
+      return _.zipObject([groupByParameter, childRecordKey], currentItem);
+    })
+    .value();
+};
+
 db.createDatabaseConnection = createDatabaseConnection;
 db.terminateDatabaseConnection = terminateDatabaseConnection;
+db.groupByRecord = groupByRecord;
 
 module.exports = db;
