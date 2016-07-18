@@ -34,68 +34,64 @@ var individualSectionScoreDao = {
         }
 
 
-        function updateRecords(index) {
+        function updateRecords(conn, index) {
 
             if (index < scoreRecords.individualScore.length) {
                 //updates section records recursively
-                connection
-                    .then(function(conn) {
-                        return conn.query(updateIndividualScoreQuery, getRefinedUpdateRecords(index++))
-                            .then(function(response) {
-                                updateRecords(index);
-                            }).catch(function(error) {
-                                console.log(error);
-                                callback(error);
-                            });
+                return conn.query(updateIndividualScoreQuery, getRefinedUpdateRecords(index))
+                    .then(function(response) {
+                        updateRecords(conn, ++index);
+                    }).catch(function(error) {
+                        console.log(error);
+                        callback(error);
                     });
+
             } else {
                 //updates overall score
-                connection
-                    .then(function(conn) {
-                        return overallScoreDao.updateOverallScore(conn, [scoreRecords.overallScore, scoreRecords.employeeID])
-                            .then(function(response) {
-                                var result = response.affectedRows ? "Updated Successfully" : "Error while Updating";
-                                db.terminateDatabaseConnection(conn);
-                                callback(result);
-                            })
-                            .catch(function(error) {
-                                console.log(error);
-                                callback(error);
-                            });
+                return overallScoreDao.updateOverallScore(conn, [scoreRecords.overallScore, scoreRecords.employeeID])
+                    .then(function(response) {
+                        db.terminateDatabaseConnection(conn);
+                        return response.affectedRows ? "Updated Successfully" : "Error while Updating";
+                    }).catch(function(error) {
+                        console.log(error);
+                        callback(error);
                     });
             }
+        }
+
+        function addRecords(conn) {
+
+            return conn.query(insertIndividualScoreQuery, getRefinedInsertRecords())
+                .then(function(response) {
+                    return conn;
+                })
+                .then(function(conn) {
+                    return overallScoreDao.insertOverallScore(conn, [scoreRecords.employeeID, scoreRecords.overallScore])
+                        .then(function(response) {
+                            db.terminateDatabaseConnection(conn);
+                            return response.affectedRows ? "Inserted Successfully" : "Error while inserting";
+                        });
+                })
+                .catch(function(error) {
+                    console.log(error);
+                    callback(error);
+                });
         }
 
         connection
             .then(function(conn) {
                 return conn.query(selectQuery, [scoreRecords.employeeID])
                     .then(function(rows) {
+
                         if (rows.length) {
-                            updateRecords(RECORD_ZERO);
+                            callback(updateRecords(conn, RECORD_ZERO));
                         } else {
-                            return conn;
+                            callback(addRecords(conn));
                         }
 
                     });
-            })
-            .then(function(conn) {
-                return conn.query(insertIndividualScoreQuery, getRefinedInsertRecords())
-                    .then(function(response) {
-                        return conn;
-                    });
-            })
-            .then(function(conn) {
-                return overallScoreDao.insertOverallScore(conn, [scoreRecords.employeeID, scoreRecords.overallScore])
-                    .then(function(response) {
-                        var result = response.affectedRows ? "Inserted Successfully" : "Error while inserting";
-                        db.terminateDatabaseConnection(conn);
-                        callback(result);
-                    });
-            })
-            .catch(function(error) {
-                console.log(error);
-                callback(error);
             });
+
     },
     getAllIndividualScoreForAllEmployees: function(callback) {
         var connection = db.createDatabaseConnection();
